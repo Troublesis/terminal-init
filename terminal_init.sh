@@ -14,7 +14,7 @@ detect_package_manager() {
     fi
 }
 
-# Update package lists and install necessary packages
+# Update package lists and install necessary packages if package manager is available
 package_manager=$(detect_package_manager)
 if [ "$package_manager" == "apt" ]; then
     apt update -y
@@ -25,23 +25,29 @@ elif [ "$package_manager" == "yum" ]; then
 elif [ "$package_manager" == "dnf" ]; then
     dnf update -y
     dnf install -y curl git vim pipx
+else
+    echo "No supported package manager found. Exiting."
+    exit 1
 fi
 
-# Install pipx packages
-pipx install -y pdm
+# Only run the following code if a supported package manager was found
+if [ "$package_manager" != "Unsupported package manager. Exiting." ]; then
+    # Install pipx packages
+    pipx install -y pdm
 
-# Install oh-my-zsh and configure plugins
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
-sed -i 's/plugins=(git)/plugins=(git vi-mode zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc
+    # Install oh-my-zsh and configure plugins
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+    echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
+    sed -i 's/plugins=(git)/plugins=(git vi-mode zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc
 
-# Install zsh-autosuggestions and zsh-syntax-highlighting plugins
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    # Install zsh-autosuggestions and zsh-syntax-highlighting plugins
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
-# Reload shell configuration
-source ~/.zshrc
+    # Reload shell configuration
+    source ~/.zshrc
 
-# Optional: Configure Powerlevel10k theme
-# p10k configure
+    # Optional: Configure Powerlevel10k theme
+    # p10k configure
+fi
