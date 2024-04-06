@@ -1,8 +1,31 @@
 #!/bin/bash
 
+# Function to detect package manager
+detect_package_manager() {
+    if [ -x "$(command -v apt)" ]; then
+        echo "apt"
+    elif [ -x "$(command -v yum)" ]; then
+        echo "yum"
+    elif [ -x "$(command -v dnf)" ]; then
+        echo "dnf"
+    else
+        echo "Unsupported package manager. Exiting."
+        exit 1
+    fi
+}
+
 # Update package lists and install necessary packages
-apt update -y
-apt install -y curl git vim pipx
+package_manager=$(detect_package_manager)
+if [ "$package_manager" == "apt" ]; then
+    apt update -y
+    apt install -y curl git vim pipx
+elif [ "$package_manager" == "yum" ]; then
+    yum update -y
+    yum install -y curl git vim pipx
+elif [ "$package_manager" == "dnf" ]; then
+    dnf update -y
+    dnf install -y curl git vim pipx
+fi
 
 # Install pipx packages
 pipx install -y pdm
