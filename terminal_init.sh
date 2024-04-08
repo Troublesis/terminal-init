@@ -33,7 +33,9 @@ fi
 # Only run the following code if a supported package manager was found
 if [ "$package_manager" != "Unsupported package manager. Exiting." ]; then
     # Install pipx packages
-    pipx install -y pdm
+    pipx install -y poetry
+    pipx ensurepath
+    poetry config virtualenvs.in-project true
 
     # Install oh-my-zsh and configure plugins
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -44,7 +46,9 @@ if [ "$package_manager" != "Unsupported package manager. Exiting." ]; then
     # Install zsh-autosuggestions and zsh-syntax-highlighting plugins
     git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-
+    
+    
+    
     # Reload shell configuration
     source ~/.zshrc
 
