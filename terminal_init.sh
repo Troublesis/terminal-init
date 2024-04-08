@@ -39,6 +39,8 @@ if [ "$package_manager" != "Unsupported package manager. Exiting." ]; then
     pipx install -y poetry
     pipx ensurepath
     poetry config virtualenvs.in-project true
+    mkdir $ZSH_CUSTOM/plugins/poetry
+    poetry completions zsh > $ZSH_CUSTOM/plugins/poetry/_poetry
 
     # Install oh-my-zsh and configure plugins
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -46,7 +48,7 @@ if [ "$package_manager" != "Unsupported package manager. Exiting." ]; then
     # Install zsh-autosuggestions and zsh-syntax-highlighting plugins
     git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-    sed -i 's/plugins=(git)/plugins=(git vi-mode zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc
+    sed -i 's/plugins=(git)/plugins=(git poetry vi-mode zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc
 
     # Install oh-my-zsh powerleve110k theme
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
