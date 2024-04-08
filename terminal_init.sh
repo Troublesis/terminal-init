@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the list of packages to install
-packages_to_install="curl git vim pipx zsh"
+packages_to_install="curl git vim pipx zsh docker.io"
 
 # Function to detect package manager
 detect_package_manager() {
@@ -53,7 +53,7 @@ if [ "$package_manager" != "Unsupported package manager. Exiting." ]; then
     echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
     
     # Reload shell configuration
-    source ~/.zshrc
+    # source ~/.zshrc
 
     # Optional: Configure Powerlevel10k theme
     # p10k configure
