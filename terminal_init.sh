@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Define the list of packages to install
+packages_to_install="curl git vim pipx"
+
 # Function to detect package manager
 detect_package_manager() {
     if [ -x "$(command -v apt)" ]; then
@@ -18,13 +21,13 @@ detect_package_manager() {
 package_manager=$(detect_package_manager)
 if [ "$package_manager" == "apt" ]; then
     apt update -y
-    apt install -y curl git vim pipx
+    apt install -y $packages_to_install
 elif [ "$package_manager" == "yum" ]; then
     yum update -y
-    yum install -y curl git vim pipx
+    yum install -y $packages_to_install
 elif [ "$package_manager" == "dnf" ]; then
     dnf update -y
-    dnf install -y curl git vim pipx
+    dnf install -y $packages_to_install
 else
     echo "No supported package manager found. Exiting."
     exit 1
@@ -45,7 +48,7 @@ if [ "$package_manager" != "Unsupported package manager. Exiting." ]; then
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
     sed -i 's/plugins=(git)/plugins=(git vi-mode zsh-autosuggestions zsh-syntax-highlighting)/g' ~/.zshrc
 
-     # Install oh-my-zsh powerleve110k theme
+    # Install oh-my-zsh powerleve110k theme
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
     echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >> ~/.zshrc
     
