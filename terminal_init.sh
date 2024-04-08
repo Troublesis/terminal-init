@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the list of packages to install
-packages_to_install="curl git vim pipx"
+packages_to_install="curl git vim pipx zsh"
 
 # Function to detect package manager
 detect_package_manager() {
